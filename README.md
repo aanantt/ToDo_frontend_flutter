@@ -1,16 +1,22 @@
-# todo
+# **FrontEnd** of full stack TODO app (android/ios)
 
-A new Flutter project.
+## Info
+A simple full stack project based on **Flutter** frontend and **django** backend.
 
-## Getting Started
+This repository contains only Flutter frontend and [Here is Django backend](https://github.com/aanantt/Todo_backend_django).
 
-This project is a starting point for a Flutter application.
+## App Includes
+1. User Registeration 
+2. Authentication
+3. Adding a work
+4. Mark Complete after workdone
+5. Delete completed work
 
-A few resources to get you started if this is your first Flutter project:
+## Few Screenshots
+[Image 1](https://raw.githubusercontent.com/aanantt/ToDo_frontend_flutter/main/images/01.png)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+[Image 2](https://raw.githubusercontent.com/aanantt/ToDo_frontend_flutter/main/images/02.png)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[Image 3](https://raw.githubusercontent.com/aanantt/ToDo_frontend_flutter/main/images/03.png)
+
+[Image 4](https://raw.githubusercontent.com/aanantt/ToDo_frontend_flutter/main/images/04.png)
