@@ -25,26 +25,26 @@ class _LoginState extends State<Login> {
   SharedPreferences prefs;
   var dio = Dio();
 
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(
           "Log In",
           style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 26),
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30),
         ),
       ),
       body: BlocListener<DataBloc, DataState>(
           child: buildContainer(context, error.text),
           listener: (context1, state) {
-             if (state is ResponseDataState) {
-              if (state.code!= 'Wrong credentials') {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+            if (state is ResponseDataState) {
+              if (state.code != 'Wrong credentials') {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) {
                   return MyHomePage(
                     token: state.code,
                   );
@@ -54,12 +54,35 @@ class _LoginState extends State<Login> {
                     context: context,
                     builder: (_) {
                       return Dialog(
-                        child: Text("ERROR_WRONG_PASSWORD"),
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Text("Wrong Credentials.."),
+                        ),
                       );
-                    });
+                    }).whenComplete(() {
+                  Navigator.pop(context);
+                });
               }
             } else if (state is IsLoading) {
-              error.text = 'Loading...';
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return Dialog(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Text("Loading...."),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
             } else if (state is InitialState) {
               return buildContainer(context, '');
             }
@@ -69,53 +92,56 @@ class _LoginState extends State<Login> {
 
   buildContainer(BuildContext context, String error) {
     return Container(
-        padding: EdgeInsets.all(10),
-        child: Center(
-          child: Column(
-            children: [
-              TextFormField(
-                  controller: username,
-                  decoration: InputDecoration(labelText: "Username")),
-              TextFormField(
-                  controller: password,
-                  decoration: InputDecoration(labelText: "Password")),
-              SizedBox(height: 10),
-              BlocListener<DataBloc, DataState>(
-                listener: (BuildContext context1, DataState state) {},
-                child: MaterialButton(
-                    color: Colors.blue,
-                    onPressed: () async {
-                      context.bloc<DataBloc>().add(LoginRequest(
-                          password: password.text, username: username.text));
-                    },
-                    child:
-                        Text("Login", style: TextStyle(color: Colors.white))),
-              ),
-              Row(mainAxisSize: MainAxisSize.min, children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Text("Forgot Password"),
-                  ),
+        padding: EdgeInsets.all(3),
+        child: Card(
+          elevation: 6,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Container(
+            margin: EdgeInsets.all(9),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                    controller: username,
+                    decoration: InputDecoration(labelText: "Username")),
+                TextFormField(
+                    obscureText: true,
+                    controller: password,
+                    decoration: InputDecoration(labelText: "Password")),
+                SizedBox(height: 17),
+                FloatingActionButton.extended(
+                  onPressed: () {
+                    context.bloc<DataBloc>().add(LoginRequest(
+                        password: password.text, username: username.text));
+                  },
+                  label: Text("LogIn",
+                      style: TextStyle(
+                          fontSize: 19,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
+                  icon: Icon(Icons.send),
                 ),
+                SizedBox(height: 17),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (_) {
                         return Signup();
                       }));
                     },
-                    child: Text("First Time??"),
+                    child: Text("First Time?? click here",
+                        style: TextStyle(decoration: TextDecoration.underline)),
                   ),
                 ),
-              ]),
-              ListTile(
-                  title: Center(
-                      child:
-                          Text("$error", style: TextStyle(color: Colors.red)))),
-            ],
+                ListTile(
+                    title: Center(
+                        child: Text("$error",
+                            style: TextStyle(color: Colors.red)))),
+              ],
+            ),
           ),
         ));
   }

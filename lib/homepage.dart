@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      autofocus: true,
                       controller: work,
                       decoration: InputDecoration(labelText: "Work"),
                     ),
@@ -59,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           work: work.text,
                           token: widget.token,
                         ));
+                        work.clear();
                         Navigator.pop(context);
                       },
                       child: Text("Add", style: TextStyle(color: Colors.white)))
@@ -131,52 +133,56 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Card(
                         elevation: 4,
                         child: ListTile(
-                            onLongPress: () {
-                              showDialog(
-                                  context: cv,
-                                  builder: (cv) {
-                                    return Dialog(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ListTile(
-                                              onTap: () {
-                                                BlocProvider.of<DataBloc>(
-                                                        context)
-                                                    .add(UpdateData(
-                                                  token: widget.token,
-                                                  id: data[index].id,
-                                                ));
-                                                // await updateData(
-                                                //     snapshot.data[index].id);
-                                                Navigator.pop(context);
-                                              },
-                                              title: Text("Mark completed")),
-                                          ListTile(
-                                              onTap: () {
-                                                BlocProvider.of<DataBloc>(
-                                                        context)
-                                                    .add(DeleteData(
-                                                  token: widget.token,
-                                                  id: data[index].id,
-                                                ));
-                                                // await deleteData(
-                                                //     snapshot.data[index].id);
-                                                Navigator.pop(context);
-                                              },
-                                              title: Text("delete")),
-                                        ],
-                                      ),
-                                    );
-                                  });
-                            },
-                            title: Text(
-                              data[index].work,
-                              style: TextStyle(
-                                  decoration: data[index].isdone
-                                      ? TextDecoration.lineThrough
-                                      : TextDecoration.none),
-                            )),
+                          onLongPress: () {
+                            showDialog(
+                                context: cv,
+                                builder: (cv) {
+                                  return Dialog(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ListTile(
+                                            onTap: () {
+                                              BlocProvider.of<DataBloc>(context)
+                                                  .add(UpdateData(
+                                                token: widget.token,
+                                                id: data[index].id,
+                                              ));
+                                              // await updateData(
+                                              //     snapshot.data[index].id);
+                                              Navigator.pop(context);
+                                            },
+                                            title: Text("Mark completed")),
+                                        ListTile(
+                                            onTap: () {
+                                              BlocProvider.of<DataBloc>(context)
+                                                  .add(DeleteData(
+                                                token: widget.token,
+                                                id: data[index].id,
+                                              ));
+                                              // await deleteData(
+                                              //     snapshot.data[index].id);
+                                              Navigator.pop(context);
+                                            },
+                                            title: Text("delete")),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          },
+                          title: Text(
+                            data[index].work,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                decoration: data[index].isdone
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none),
+                          ),
+                          trailing: data[index].isdone
+                              ? Icon(Icons.check, color: Colors.green)
+                              : SizedBox(),
+                        ),
                       ),
                       actions: <Widget>[
                         IconSlideAction(
