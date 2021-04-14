@@ -17,7 +17,7 @@ abstract class DataRepository {
 
 class DataRepositoryImpl implements DataRepository {
   List<Todo> dataa = [];
-  String url = 'https://tryingtodo.herokuapp.com';
+  String url = 'http://192.168.43.86:8000';
 
   @override
   Future<List<Todo>> getData(String token) async {
