@@ -40,6 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
           return Container(
             padding: EdgeInsets.all(5),
             child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(13)),
               elevation: 5,
               child: Column(
                 mainAxisSize: MainAxisSize.min,

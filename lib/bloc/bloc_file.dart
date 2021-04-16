@@ -16,9 +16,7 @@ class DataBloc extends Bloc<DataEvent, DataState> {
   @override
   Stream<DataState> mapEventToState(DataEvent event) async* {
     if (event is GetDataRequest) {
-      yield IsLoading();
-      final todoList = await articleRepositoryImpl.getData(event.token);
-      yield GetDataState(todo: todoList);
+      yield* getstate(event);
     } else if (event is PostData) {
       await articleRepositoryImpl.postData(event.token, event.work);
       final todoList = await articleRepositoryImpl.getData(event.token);
@@ -52,5 +50,11 @@ class DataBloc extends Bloc<DataEvent, DataState> {
         yield ErrorState(error: response);
       }
     }
+  }
+
+  Stream<DataState> getstate(event) async* {
+    yield IsLoading();
+    final todoList = await articleRepositoryImpl.getData(event.token);
+    yield GetDataState(todo: todoList);
   }
 }
